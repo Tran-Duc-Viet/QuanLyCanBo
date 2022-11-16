@@ -1,6 +1,8 @@
 package Model.Model;
 
 import Model.Entity.*;
+import Model.Model.SQLConnector;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.sql.Connection;
@@ -10,13 +12,14 @@ import java.sql.SQLIntegrityConstraintViolationException;
 
 import GUI.CongNhanView;
 
-	//lớp thao tác với dữ liệu của công nhân
+//lớp thao tác với dữ liệu của công nhân
 public class CongNhanModel {
 	private CongNhanView congNhanView = null;
 	private final static String databaseName = "qlcongnhan";
 	// Hoten, tuoi, gioitinh, dia chi, bac
 	private final String insertSQL = "INSERT INTO " + databaseName + " VALUE (?, ?, ?, ?, ?)";
 	private final String selectAllSQL = "SELECT * FROM " + databaseName;
+	private final String deleteSQL = "DELETE FROM " + databaseName;
 
 	// phuong thức khởi tạo
 	public CongNhanModel(CongNhanView congNhanView) {
@@ -45,10 +48,6 @@ public class CongNhanModel {
 
 	}
 
-	// phuong thức xem ds
-	public void xemDS() throws Exception {
-		congNhanView.setDataForTable(getData(congNhanView.getTextToFind()));
-	}
 
 	// phương thức lấy ds công nhân
 	public ArrayList<Congnhan> getData(String condition) throws Exception {
@@ -77,5 +76,21 @@ public class CongNhanModel {
 
 	public void timKiem(String name) throws Exception {
 		congNhanView.setDataForTable(getData(name));
+	}
+
+	// Hoten, tuoi, gioitinh, dia chi, bac
+	public void delete(Congnhan congNhan) throws Exception {
+		Connection con = SQLConnector.getCon();
+
+		if ((!congNhan.getHoTen().equals("")) && (!congNhan.getDiaChi().equals(""))
+				&& (!congNhan.getGioiTinh().equals(""))) {
+			String query = deleteSQL + " WHERE HovaTen = '" + congNhan.getHoTen() + "' AND Tuoi = '"
+					+ String.valueOf(congNhan.getTuoi()) + "' AND DiaChi = '" + congNhan.getDiaChi()
+					+ "' AND GioiTinh = '" + congNhan.getGioiTinh() + "' ";
+			PreparedStatement stmt = con.prepareStatement(query);
+			stmt.execute();
+			con.close();
+			congNhanView.setDataForTable(getData(congNhanView.getTextToFind()));
+		}
 	}
 }

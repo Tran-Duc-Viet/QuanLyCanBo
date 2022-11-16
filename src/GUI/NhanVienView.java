@@ -34,7 +34,7 @@ public class NhanVienView {
 																										// của bảng
 	private JTextField congViec;
 	private JTextField tenTimKiem;
-	private JButton btnThem, btnClear, btnXemDS, btnTimKiem;
+	private JButton btnThem, btnClear, btnDelete, btnTimKiem;
 
 	/**
 	 * Launch the application.
@@ -146,10 +146,10 @@ public class NhanVienView {
 		btnClear.setBounds(265, 386, 120, 49);
 		frame.getContentPane().add(btnClear);
 
-		btnXemDS = new JButton("Xem danh sách");
-		btnXemDS.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		btnXemDS.setBounds(52, 455, 120, 49);
-		frame.getContentPane().add(btnXemDS);
+		btnDelete = new JButton("Xóa");
+		btnDelete.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		btnDelete.setBounds(52, 455, 120, 49);
+		frame.getContentPane().add(btnDelete);
 
 		btnTimKiem = new JButton("Tìm kiếm");
 		btnTimKiem.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -207,13 +207,13 @@ public class NhanVienView {
 		return tenTimKiem.getText();
 	}
 
-//các phương thức đặt gắn hiệu ứng cho nút thêm, xem danh sách, tìm kiếm
+	// các phương thức đặt gắn hiệu ứng cho nút thêm, xóa, tìm kiếm
 	public void setActionAddButton(ActionListener action) {
 		btnThem.addActionListener(action);
 	}
 
-	public void setActionXemDsButton(ActionListener action) {
-		btnXemDS.addActionListener(action);
+	public void setActionDeleteButton(ActionListener action) {
+		btnDelete.addActionListener(action);
 	}
 
 	public void setActionListenerFind(ActionListener action) {
@@ -274,6 +274,17 @@ public class NhanVienView {
 		}
 		return congViec;
 
+	}
+
+	public Nhanvien getSelectedInfo() throws Exception {
+		int selectedRow = table.getSelectedRow();
+		if (selectedRow == -1)
+			throw new Exception("Chưa chọn thông tin");
+		String[] t = { table.getValueAt(selectedRow, 0).toString(), table.getValueAt(selectedRow, 1).toString(),
+				table.getValueAt(selectedRow, 2).toString(), table.getValueAt(selectedRow, 3).toString(),
+				table.getValueAt(selectedRow, 4).toString() };
+		Nhanvien nv = new Nhanvien(t);
+		return nv;
 	}
 
 }

@@ -18,7 +18,7 @@ public class KySuController {
 		kySuView.initialize();
 		// đặt hiệu ứng cho các nút trong gia diện ký sư
 		kySuView.setActionAddButton(new themBtnAction());
-		kySuView.setActionXemDSButton(new xemDSBtnAction());
+		kySuView.setActionDeleteButton(new deleteBtnAction());
 		kySuView.setActionListenerFind(new findAction());
 		try {
 			kySuView.setDataForTable(kySuModel.getData(""));
@@ -63,14 +63,17 @@ public class KySuController {
 		}
 	}
 
-	// lớp hiệu ứng của nút xem danh sách
-	class xemDSBtnAction implements ActionListener {
+	// lớp hiệu ứng của nút xóa
+	class deleteBtnAction implements ActionListener {
+		@Override
 		public void actionPerformed(ActionEvent arg0) {
+			// TODO Auto-generated method stub
 			try {
-				kySuModel.xemDS();
-
+				kySuModel.delete(kySuView.getSelectedInfo());;
+				kySuView.setDataForTable(kySuModel.getData(""));
+				kySuView.showMessage("Xóa dữ liệu thành công");
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
+				// TODO: handle exception
 				kySuView.showMessage(e.getMessage());
 			}
 		}

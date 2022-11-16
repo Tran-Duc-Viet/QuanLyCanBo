@@ -36,7 +36,7 @@ public class KySuView {
 	public static final String colName[] = { "Họ và tên", "Tuổi", "Giới tính", "Địa chỉ", "Ngành đào tạo" };
 	private JTextField nganhDaoTao;
 	private JTextField tenTimKiem;
-	private JButton btnThem, btnClear, btnXemDS, btnTimKiem;
+	private JButton btnThem, btnClear, btnDelete, btnTimKiem;
 
 	/**
 	 * Launch the application.
@@ -149,10 +149,10 @@ public class KySuView {
 		btnClear.setBounds(265, 386, 120, 49);
 		frame.getContentPane().add(btnClear);
 
-		btnXemDS = new JButton("Xem danh sách");
-		btnXemDS.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		btnXemDS.setBounds(52, 455, 120, 49);
-		frame.getContentPane().add(btnXemDS);
+		btnDelete = new JButton("Xóa");
+		btnDelete.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		btnDelete.setBounds(52, 455, 120, 49);
+		frame.getContentPane().add(btnDelete);
 
 		btnTimKiem = new JButton("Tìm kiếm");
 		btnTimKiem.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -210,13 +210,13 @@ public class KySuView {
 		return tenTimKiem.getText();
 	}
 
-	// các phương thức đặt gắn hiệu ứng cho nút thêm, xem danh sách, tìm kiếm
+	// các phương thức đặt gắn hiệu ứng cho nút thêm, xóa, tìm kiếm
 	public void setActionAddButton(ActionListener action) {
 		btnThem.addActionListener(action);
 	}
 
-	public void setActionXemDSButton(ActionListener action) {
-		btnXemDS.addActionListener(action);
+	public void setActionDeleteButton(ActionListener action) {
+		btnDelete.addActionListener(action);
 	}
 
 	public void setActionListenerFind(ActionListener action) {
@@ -228,7 +228,7 @@ public class KySuView {
 		JOptionPane.showMessageDialog(frame, message);
 	}
 
-	// các phương thức đặt gắn hiệu ứng cho nút thêm, xem danh sách, tìm kiếm
+	// các phương thức lấy thông tin của ký sư mới từ textfieid
 	public String getHoTen() throws Exception {
 		String name = hoVaTen.getText();
 		if (name.equals("")) {
@@ -239,7 +239,6 @@ public class KySuView {
 
 	}
 
-	// các phương thức lấy thông tin của ký sư mới từ textfieid
 	public String getTuoi() throws Exception {
 		String tuoi = this.tuoi.getText();
 		if (tuoi.equals("")) {
@@ -278,5 +277,16 @@ public class KySuView {
 		}
 		return nganhDaoTao;
 
+	}
+
+	public Kysu getSelectedInfo() throws Exception {
+		int selectedRow = table.getSelectedRow();
+		if (selectedRow == -1)
+			throw new Exception("Chưa chọn thông tin");
+		String[] t = { table.getValueAt(selectedRow, 0).toString(), table.getValueAt(selectedRow, 1).toString(),
+				table.getValueAt(selectedRow, 2).toString(), table.getValueAt(selectedRow, 3).toString(),
+				table.getValueAt(selectedRow, 4).toString() };
+		Kysu ks = new Kysu(t);
+		return ks;
 	}
 }

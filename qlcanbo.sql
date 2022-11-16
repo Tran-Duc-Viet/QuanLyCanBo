@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 15, 2022 lúc 03:53 PM
+-- Thời gian đã tạo: Th10 16, 2022 lúc 12:22 PM
 -- Phiên bản máy phục vụ: 10.4.25-MariaDB
 -- Phiên bản PHP: 8.1.10
 
@@ -28,21 +28,12 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `qlcongnhan` (
-  `HovaTen` varchar(256) DEFAULT NULL,
-  `Tuoi` int(2) DEFAULT NULL,
-  `GioiTinh` varchar(4) DEFAULT NULL,
-  `DiaChi` varchar(256) DEFAULT NULL,
+  `HovaTen` varchar(256) NOT NULL,
+  `Tuoi` int(2) NOT NULL,
+  `GioiTinh` varchar(4) NOT NULL,
+  `DiaChi` varchar(256) NOT NULL,
   `Bac` int(2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Đang đổ dữ liệu cho bảng `qlcongnhan`
---
-
-INSERT INTO `qlcongnhan` (`HovaTen`, `Tuoi`, `GioiTinh`, `DiaChi`, `Bac`) VALUES
-('vt', 30, 'Nam', '69', 2),
-('ha', 12, 'Nữ', '13', 7),
-('vt', 30, 'Nữ', '30', 7);
 
 -- --------------------------------------------------------
 
@@ -51,10 +42,10 @@ INSERT INTO `qlcongnhan` (`HovaTen`, `Tuoi`, `GioiTinh`, `DiaChi`, `Bac`) VALUES
 --
 
 CREATE TABLE `qlkysu` (
-  `HovaTen` varchar(256) DEFAULT NULL,
-  `Tuoi` int(2) DEFAULT NULL,
-  `GioiTinh` varchar(4) DEFAULT NULL,
-  `DiaChi` varchar(256) DEFAULT NULL,
+  `HovaTen` varchar(256) NOT NULL,
+  `Tuoi` int(2) NOT NULL,
+  `GioiTinh` varchar(4) NOT NULL,
+  `DiaChi` varchar(256) NOT NULL,
   `NganhDaoTao` varchar(256) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -63,7 +54,6 @@ CREATE TABLE `qlkysu` (
 --
 
 INSERT INTO `qlkysu` (`HovaTen`, `Tuoi`, `GioiTinh`, `DiaChi`, `NganhDaoTao`) VALUES
-('Việt', 30, 'Nam', 'Số 89, Ngõ 88, Phố Giáp Nhị', 'IT'),
 ('Hà', 30, 'Nữ', 'Số 89, Ngõ 88, Phố Giáp Nhị', 'IT');
 
 -- --------------------------------------------------------
@@ -85,12 +75,23 @@ CREATE TABLE `qlnhanvien` (
 --
 
 INSERT INTO `qlnhanvien` (`HovaTen`, `Tuoi`, `GioiTinh`, `DiaChi`, `CongViec`) VALUES
-('Trần Thu Hà', 30, 'Nữ', 'Số 80, Phố Giáp Nhị, Thịnh Liệt', 'Nhân Viên'),
 ('Trần Đức Việt', 30, 'Nam', 'Số 80, Phố Giáp Nhị, Thịnh Liệt', 'Nhân Viên');
 
 --
 -- Chỉ mục cho các bảng đã đổ
 --
+
+--
+-- Chỉ mục cho bảng `qlcongnhan`
+--
+ALTER TABLE `qlcongnhan`
+  ADD PRIMARY KEY (`HovaTen`,`Tuoi`,`GioiTinh`,`DiaChi`);
+
+--
+-- Chỉ mục cho bảng `qlkysu`
+--
+ALTER TABLE `qlkysu`
+  ADD PRIMARY KEY (`HovaTen`,`Tuoi`,`GioiTinh`,`DiaChi`);
 
 --
 -- Chỉ mục cho bảng `qlnhanvien`

@@ -18,7 +18,7 @@ public class CongNhanController {
 		congNhanView.initialize();
 		// đặt hiệu ứng khi bấm nút cho các nút trong lớp congNhanView
 		congNhanView.setActionAddButton(new themBtnAction());
-		congNhanView.setActionXemDSButton(new xemDSBtnAction());
+		congNhanView.setActionDeleteButton(new deleteBtnAction());
 		congNhanView.setActionListenerFind(new findAction());
 		try {
 			congNhanView.setDataForTable(congNhanModel.getData(""));
@@ -63,14 +63,17 @@ public class CongNhanController {
 		}
 	}
 
-	// lớp hiệu ứng của nút xem danh sách
-	class xemDSBtnAction implements ActionListener {
+	// lớp hiệu ứng của nút xóa
+	class deleteBtnAction implements ActionListener {
+		@Override
 		public void actionPerformed(ActionEvent arg0) {
+			// TODO Auto-generated method stub
 			try {
-				congNhanModel.xemDS();
-
+				congNhanModel.delete(congNhanView.getSelectedInfo());
+				congNhanView.setDataForTable(congNhanModel.getData(""));
+				congNhanView.showMessage("Xóa dữ liệu thành công");
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
+				// TODO: handle exception
 				congNhanView.showMessage(e.getMessage());
 			}
 		}

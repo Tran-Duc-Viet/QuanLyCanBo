@@ -4,8 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import Controller.KySuController.themBtnAction;
-import Controller.KySuController.xemDSBtnAction;
 import GUI.NhanVienView;
 import Model.Entity.Nhanvien;
 import Model.Model.NhanVienModel;
@@ -20,7 +18,7 @@ public class NhanVienController {
 		nhanVienView.initialize();
 		// đặt hiệu ứng cho các nút trong giao diện nhân viên
 		nhanVienView.setActionAddButton(new themBtnAction());
-		nhanVienView.setActionXemDsButton(new xemDSBtnAction());
+		nhanVienView.setActionDeleteButton(new deleteBtnAction());
 		nhanVienView.setActionListenerFind(new findAction());
 		try {
 			nhanVienView.setDataForTable(nhanVienModel.getData(""));
@@ -65,17 +63,20 @@ public class NhanVienController {
 		}
 	}
 
-//lớp hiệu ứng của nút xem danh sách
-	class xemDSBtnAction implements ActionListener {
-		public void actionPerformed(ActionEvent arg0) {
-			try {
-				nhanVienModel.xemDS();
-
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				nhanVienView.showMessage(e.getMessage());
+	// lớp hiệu ứng của nút xóa
+		class deleteBtnAction implements ActionListener {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				try {
+					nhanVienModel.delete(nhanVienView.getSelectedInfo());;
+					nhanVienView.setDataForTable(nhanVienModel.getData(""));
+					nhanVienView.showMessage("Xóa dữ liệu thành công");
+				} catch (Exception e) {
+					// TODO: handle exception
+					nhanVienView.showMessage(e.getMessage());
+				}
 			}
 		}
-	}
 
 }

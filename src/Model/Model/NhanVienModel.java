@@ -15,6 +15,7 @@ public class NhanVienModel {
 	// Hoten, tuoi, gioitinh, dia chi, CongViec
 	private final String insertSQL = "INSERT INTO " + databaseName + " VALUE (?, ?, ?, ?, ?)";
 	private final String selectAllSQL = "SELECT * FROM " + databaseName;
+	private final String deleteSQL = "DELETE FROM " + databaseName;
 
 	// phuong thức khởi tạo
 	public NhanVienModel(NhanVienView nhanVienView) {
@@ -38,13 +39,6 @@ public class NhanVienModel {
 			throw new Exception("Đã tồn tại nhân viên này");
 		}
 		con.close();
-		nhanVienView.setDataForTable(getData(nhanVienView.getTextToFind()));
-
-	}
-
-	// phương thức xem danh sách nhân viên
-	public void xemDS() throws Exception {
-
 		nhanVienView.setDataForTable(getData(nhanVienView.getTextToFind()));
 
 	}
@@ -77,5 +71,20 @@ public class NhanVienModel {
 	// phuog thức tìm danh sách nhân viên có họ tên nào đó
 	public void timKiem(String name) throws Exception {
 		nhanVienView.setDataForTable(getData(name));
+	}
+
+	// Hoten, tuoi, gioitinh, dia chi, bac
+	public void delete(Nhanvien nhanVien) throws Exception {
+		Connection con = SQLConnector.getCon();
+
+		if ((!nhanVien.getHoTen().equals("")) && (!nhanVien.getDiaChi().equals("")) && (!nhanVien.getGioiTinh().equals(""))) {
+			String query = deleteSQL + " WHERE HovaTen = '" + nhanVien.getHoTen() + "' AND Tuoi = '"
+					+ String.valueOf(nhanVien.getTuoi()) + "' AND DiaChi = '" + nhanVien.getDiaChi() + "' AND GioiTinh = '"
+					+ nhanVien.getGioiTinh() + "' ";
+			PreparedStatement stmt = con.prepareStatement(query);
+			stmt.execute();
+			con.close();
+			nhanVienView.setDataForTable(getData(nhanVienView.getTextToFind()));
+		}
 	}
 }

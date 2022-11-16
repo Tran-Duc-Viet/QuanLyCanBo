@@ -18,7 +18,7 @@ public class KySuModel {
 	// Hovaen, tuoi, gioitinh, dia chi, nganhDaoTao
 	private final String insertSQL = "INSERT INTO " + databaseName + " VALUE (?, ?, ?, ?, ?)";
 	private final String selectAllSQL = "SELECT * FROM " + databaseName;
-
+	private final String deleteSQL = "DELETE FROM " + databaseName;
 	// phuownng thức khởi tạo
 	public KySuModel(KySuView kySuView) {
 		this.kySuView = kySuView;
@@ -81,6 +81,22 @@ public class KySuModel {
 	// phương thức tìm kiếm danh sách nhứng người có họ tên nào đó
 	public void timKiem(String name) throws Exception {
 		kySuView.setDataForTable(getData(name));
+	}
+
+	// Hoten, tuoi, gioitinh, dia chi, bac
+	public void delete(Kysu kySu) throws Exception {
+		Connection con = SQLConnector.getCon();
+
+		if ((!kySu.getHoTen().equals("")) && (!kySu.getDiaChi().equals(""))
+				&& (!kySu.getGioiTinh().equals(""))) {
+			String query = deleteSQL + " WHERE HovaTen = '" + kySu.getHoTen() + "' AND Tuoi = '"
+					+ String.valueOf(kySu.getTuoi()) + "' AND DiaChi = '" + kySu.getDiaChi()
+					+ "' AND GioiTinh = '" + kySu.getGioiTinh() + "' ";
+			PreparedStatement stmt = con.prepareStatement(query);
+			stmt.execute();
+			con.close();
+			kySuView.setDataForTable(getData(kySuView.getTextToFind()));
+		}
 	}
 
 }
